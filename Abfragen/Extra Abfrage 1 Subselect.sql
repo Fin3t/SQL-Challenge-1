@@ -1,0 +1,10 @@
+--Zusatz Abfrage 1 + Subselects
+--Übersicht über die Bestellungen der Kunden
+USE krautundrueben
+SELECT KUNDENNR,VORNAME, NACHNAME,
+
+Bestellungen = (SELECT COUNT(BESTELLUNG.BESTELLNR)
+FROM BESTELLUNG
+WHERE BESTELLUNG.KUNDENNR = KUNDE.KUNDENNR)
+
+FROM KUNDE

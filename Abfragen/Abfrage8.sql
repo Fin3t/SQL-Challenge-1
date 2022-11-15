@@ -1,0 +1,25 @@
+--Abfrage 8
+--Auswahl aller Rezepte, die weniger als fünf Zutaten enthalten 
+--und eine bestimmte Ernährungskategorie erfüllen
+USE krautundrueben
+
+DECLARE @EKategorie VARCHAR(50)
+SET @EKategorie = 'KATEGORIE HIER EINFÜGEN' -- Beispiel: Low Carb
+
+SELECT COUNT(REZEPTEZUTAT.ZUTATENNR) AS [Anzahl der Zutaten],REZEPTE.REZEPTNAME AS [Rezeptname]
+FROM ZUTAT,REZEPTE,REZEPTEZUTAT,ERNAEHRUNGSKATEGORIE,ERNAEHRUNGREZEPTE
+WHERE ERNAEHRUNGSKATEGORIE.ERNAEHRUNGSART = @EKategorie
+AND ZUTAT.ZUTATENNR = REZEPTEZUTAT.ZUTATENNR
+AND REZEPTE.REZEPTID = REZEPTEZUTAT.REZEPTID
+AND ERNAEHRUNGSKATEGORIE.ERNAEHRUNGSID = ERNAEHRUNGREZEPTE.ERNAEHRUNGSID
+AND ERNAEHRUNGREZEPTE.REZEPTID = REZEPTE.REZEPTID
+GROUP BY REZEPTE.REZEPTNAME
+HAVING COUNT(REZEPTEZUTAT.ZUTATENNR) < 5
+
+---------------------------------------------------------------------------
+--select * from [dbo].[REZEPTE]
+--select * from [dbo].[REZEPTEZUTAT]
+--select * from [dbo].[ZUTAT]
+--select * from [dbo].[ERNAEHRUNGSKATEGORIE]
+--select * from [dbo].[ERNAEHRUNGREZEPTE]
+
